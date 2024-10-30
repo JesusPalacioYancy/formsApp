@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col">
 
-        <form [formGroup]="myForm" (ngSubmit)="onSave()"  autocomplete="off">
+        <form [formGroup]="myFormBasic" (ngSubmit)="onSave()"  autocomplete="off">
 
             <!-- Campo de producto -->
             <div class="mb-3 row">
@@ -17,14 +17,9 @@
                            formControlName="name"
                            >
 
-                    <span *ngIf="myForm.controls['name'].getError('required') && myForm.controls['name'].touched" 
+                    <span *ngIf="isValidField('name')" 
                     class="form-text text-danger">
-                        Campo requerido
-                    </span>
-
-                    <span *ngIf="myForm.controls['name'].getError('minlength') && myForm.controls['name'].touched" 
-                    class="form-text text-danger">
-                        Campo requerido
+                            {{getFieldError('name')}}
                     </span>
                 </div>
             </div>
@@ -39,7 +34,10 @@
                            formControlName="price"
                            >
 
-                    <span class="form-text text-danger">
+                    <span 
+                    class="form-text text-danger"
+                    *ngIf="isValidField('price')" 
+                    >
                         El precio debe de ser 0 o mayor
                     </span>
                 </div>
@@ -55,7 +53,9 @@
                            formControlName="inStorage"
                            >
 
-                    <span class="form-text text-danger">
+                    <span class="form-text text-danger"
+                    *ngIf="isValidField('inStorage')" 
+                    >
                          Las existencias deben de ser 0 o mayor
                     </span>
                 </div>
@@ -85,27 +85,27 @@
     <div class="col">
 
         <span>Valid</span>
-        <pre>{{ myForm.valid| json }}</pre>
+        <pre>{{ myFormBasic.valid| json }}</pre>
 
         <span>Pristine</span>
-        <pre>{{ myForm.pristine| json }}</pre>
+        <pre>{{ myFormBasic.pristine| json }}</pre>
 
         <span>Touched</span>
-        <pre>{{ myForm.touched| json }}</pre>
+        <pre>{{ myFormBasic.touched| json }}</pre>
 
         <span>Value</span>
-        <pre>{{ myForm.value| json }}</pre>
+        <pre>{{ myFormBasic.value| json }}</pre>
 
         <span>Precio</span>
-        <pre>{{ myForm.controls['price'].value| json }}</pre>
+        <pre>{{ myFormBasic.controls['price'].value| json }}</pre>
 
         <span>Precio - Errors</span>
-        <pre>{{ myForm.controls['price'].errors | json }}</pre>
+        <pre>{{ myFormBasic.controls['price'].errors | json }}</pre>
 
         <span>Producto</span>
-        <pre>{{ myForm.controls['name'].value | json }}</pre>
+        <pre>{{ myFormBasic.controls['name'].value | json }}</pre>
 
         <span>Producto</span>
-        <pre>{{ myForm.controls['name'].errors | json }}</pre>
+        <pre>{{ myFormBasic.controls['name'].errors | json }}</pre>
     </div>
 </div>

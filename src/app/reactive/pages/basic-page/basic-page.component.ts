@@ -13,7 +13,7 @@ export class BasicPageComponent {
   //   inStorage: new FormControl(0),
   // })
 
-  public myForm: FormGroup = this.fb.group({
+  public myFormBasic: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3) ]],
     price: [null, [Validators.required, Validators.min(0) ] ],
     inStorage: [null, [Validators.required, Validators.min(0) ]],
@@ -22,16 +22,39 @@ export class BasicPageComponent {
   constructor(private fb: FormBuilder){};
 
 
-  onSave(): void {
-    if(this.myForm.invalid)  {
-      this.myForm.markAllAsTouched();
+  isValidField(field: string): boolean | null{
+    return this.myFormBasic.controls[field].errors && this.myFormBasic.controls[field].touched;
+  };
 
+  getFieldError(field: string): string | null  {
+    if(!this.myFormBasic.controls[field]) return null;
+
+    const errors = this.myFormBasic.controls[field].errors || {};
+
+    for (const key of Object.keys(errors)) {
+      switch(key){
+        case 'required': 
+          return 'Este campo es requerido';
+        
+        case 'minlength': 
+          return `Mínimo ${errors['minlength'].requiredLength} caracteres`;
+      };
+    };
+
+    return null;
+  };
+
+
+
+  onSave(): void {
+    if(this.myFormBasic.invalid)  {
+      this.myFormBasic.markAllAsTouched();
       return;
     };
 
-    console.log(this.myForm.value)
+    console.log(this.myFormBasic.value)
 
-    this.myForm.reset()
+    this.myFormBasic.reset()
   }
 
 }
