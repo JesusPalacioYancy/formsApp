@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: './dynamic-page.component.html',
@@ -7,13 +7,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class DynamicPageComponent {
 
-  constructor(private fb: FormBuilder){};
-
-  get favoriteGame () {
-    return this.myFromDynamic.get('favoriteGame') as FormArray;
-  };
-
-  myFromDynamic: FormGroup = this.fb.group({
+  public myFromDynamic: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     favoriteGame: this.fb.array([
       ['Gears of war', Validators.required],
@@ -21,9 +15,17 @@ export class DynamicPageComponent {
     ]),
   });
 
+  public myNewFavorite: FormControl = new FormControl('', [Validators.required]);
+
+  constructor(private fb: FormBuilder){};
+
+  get favoriteGame () {
+    return this.myFromDynamic.get('favoriteGame') as FormArray;
+  };
 
   isValidField(field: string): boolean | null{
-    return this.myFromDynamic.controls[field].errors && this.myFromDynamic.controls[field].touched;
+    return this.myFromDynamic.controls[field].errors 
+    && this.myFromDynamic.controls[field].touched;
   };
 
   isValidFieldInArray(formArray: FormArray, i : number): boolean | null{
@@ -51,11 +53,22 @@ export class DynamicPageComponent {
   };
 
 
+  onAddFavorite():void {
+    if(this.myNewFavorite.invalid) return;
+    const newGame = this.myNewFavorite.value
+
+    this.favoriteGame.push(
+      this.fb.control(newGame, [Validators.required])
+    )
+
+    this.myNewFavorite.reset()
+
+  }
+
+
   onDeleteFavorite(i: number) {
     this.favoriteGame.removeAt(i)
   };
-
-
 
   onSumit(): void{
     if(this.myFromDynamic.invalid){
@@ -63,6 +76,7 @@ export class DynamicPageComponent {
     };
 
     console.log(this.myFromDynamic.value);
+    (this.myFromDynamic.controls['favoriteGame'] as FormArray) = this.fb.array([])
     this.myFromDynamic.reset();
   };
 

@@ -23,7 +23,8 @@ export class BasicPageComponent {
 
 
   isValidField(field: string): boolean | null{
-    return this.myFormBasic.controls[field].errors && this.myFormBasic.controls[field].touched;
+    return this.myFormBasic.controls[field].errors 
+    && this.myFormBasic.controls[field].touched;
   };
 
   getFieldError(field: string): string | null  {
