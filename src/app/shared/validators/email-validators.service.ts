@@ -10,7 +10,6 @@ export class EmailValidators implements AsyncValidator {
 
         const email = control.value;
 
-
         const httpCallObservable = new Observable<ValidationErrors | null>( (sub) => {
 
             console.log({email})
@@ -26,22 +25,14 @@ export class EmailValidators implements AsyncValidator {
         }).pipe(
             delay(2000)
         )
-        
-        // console.log(email);
-
-        // return of({
-        //    emailTaken: true 
-        // }).pipe(
-        //    delay( 2000 )
-        // );
 
        return httpCallObservable;
-
     }
+};
 
 
-}
 
+//
 // return this.http.get<any[]>(`http://localhost:3000/users?q=${ email }`)
 // .pipe(
 //   // delay(3000),
@@ -51,3 +42,5 @@ export class EmailValidators implements AsyncValidator {
 //         : { emailTaken: true }
 //   })
 // );
+
+

@@ -21,14 +21,27 @@ export class ResgisterPageComponent {
     username: ['', [Validators.required, this.validatoresService.cantBeStraider ]],
     password: ['', [Validators.required, Validators.minLength(6)] ],
     password2: ['', [Validators.required ] ],
-  })
+  },
+  {
+    validators: [
+      this.validatoresService.isFieldOneEqualFieldTwo('password', 'password2')
+    ]
+  });
 
   isValidField(field : string ){
     return this.validatoresService.isValidField(this.myFormReguister, field)
-  }
+  };
 
   onSave() {
-    return this.myFormReguister.markAllAsTouched();
+    if(this.myFormReguister.invalid)  {
+      this.myFormReguister.markAllAsTouched();
+      return;
+    };
+
+    console.log(this.myFormReguister.value)
+
+    this.myFormReguister.reset()
+
   };
 
 }
