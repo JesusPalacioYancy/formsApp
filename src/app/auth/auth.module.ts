@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { ResgisterPageComponent } from './pages/resgisterPage/resgister-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 
 
@@ -13,6 +15,7 @@ import { ResgisterPageComponent } from './pages/resgisterPage/resgister-page.com
   imports: [
     CommonModule,
     AuthRoutingModule,
+    ReactiveFormsModule
   ],
 })
 export class AuthModule { }
